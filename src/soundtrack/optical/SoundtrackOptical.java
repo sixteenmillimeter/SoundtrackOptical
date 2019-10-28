@@ -1,9 +1,9 @@
-package optical_soundtrack;
+package soundtrack.optical;
 
 import processing.sound.*;
 import processing.core.*;
 
-public class Soundtrack {
+public class SoundtrackOptical {
   String TYPE = "dual variable area"; //type of soundtrack
   int DPI = 2880; //dots/in
   boolean POSITIVE = true;
