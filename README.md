@@ -1,2 +1,2 @@
-# optical_soundtrack_processing
+# soundtrack.optical
 Library for generating optical soundtracks with Processing.
