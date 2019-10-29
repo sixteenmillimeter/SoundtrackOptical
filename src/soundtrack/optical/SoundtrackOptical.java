@@ -4,17 +4,16 @@ import processing.core.*;
 import processing.sound.*;
 
 public class SoundtrackOptical {
-  String TYPE = "dual variable area"; //type of soundtrack
-  int DPI = 2880; //dots/in
+  String TYPE = "dual variable area";
+  int DPI = 2880;
   boolean POSITIVE = true;
   float VOLUME = (float) 1.0;
   String pitch = "long";
-  //String filePath = "wavTones.com.unregistred.sweep_100Hz_6000Hz_-3dBFS_5s.wav";
   String FILEPATH;
   
-  float IN      = (float) 25.4; //mm/in
-  float FRAME_H = (float) 7.62; //mm
-  float FRAME_W = (float) (12.52 - 10.26); //mm
+  float IN      = (float) 25.4;
+  float FRAME_H = (float) 7.62;
+  float FRAME_W = (float) (12.52 - 10.26);
   
   float DPMM = (float) (DPI / IN);
   int FRAME_H_PIXELS = (int) Math.round(DPMM * FRAME_H);
