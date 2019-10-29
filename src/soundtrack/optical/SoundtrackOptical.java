@@ -14,7 +14,7 @@ public class SoundtrackOptical {
   
   float IN      = (float) 25.4; //mm/in
   float FRAME_H = (float) 7.62; //mm
-  float FRAME_W = (float) (12.52 - 10.26);; //mm
+  float FRAME_W = (float) (12.52 - 10.26); //mm
   
   float DPMM = (float) (DPI / IN);
   int FRAME_H_PIXELS = (int) Math.round(DPMM * FRAME_H);
@@ -53,13 +53,18 @@ public class SoundtrackOptical {
     DEPTH          = (int) Math.floor(DPMM * FRAME_W);
     
     soundfile = new SoundFile(parent, FILEPATH);
+
+    parent.println("OLD SAMPLE_RATE: " + soundfile.sampleRate());
+
     soundfile.rate(SAMPLE_RATE);
   
     FRAMES = (int) Math.ceil(soundfile.frames() / FRAME_H_PIXELS);
     
-    parent.println(FRAMES);
-    parent.println(DEPTH);
-    parent.println(FRAME_H_PIXELS);
+
+    parent.println("SAMPLE_RATE: " + SAMPLE_RATE);
+    parent.println("FRAMES: " + FRAMES);
+    parent.println("WIDTH: " + DEPTH);
+    parent.println("HEIGHT: " + FRAME_H_PIXELS);
     
     for (int x = 0; x < soundfile.frames(); x++) {
         compare = soundfile.read(x);
