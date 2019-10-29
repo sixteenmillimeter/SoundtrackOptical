@@ -20,6 +20,10 @@ public class SoundtrackOptical {
   int FRAME_H_PIXELS = (int) Math.round(DPMM * FRAME_H);
   int SAMPLE_RATE    = FRAME_H_PIXELS * 24;
   int DEPTH          = (int) Math.round(DPMM * FRAME_W);
+
+  int RAW_RATE = 0;
+  int RAW_FRAME_H = 0;
+  int RAW_FRAME_W = 0;
   
   int LINE_W        = 0;
   float DENSITY     = 0;
@@ -31,10 +35,9 @@ public class SoundtrackOptical {
   float min = 0;
   float compare;
   
-  Sound s;
-  AudioSample sample;
-  float[] frameSample = new float[FRAME_H_PIXELS];
+  float[] frameSample;
   SoundFile soundfile;
+  PGraphics raw;
   PApplet parent;
   
   @SuppressWarnings("static-access")
@@ -54,18 +57,15 @@ public class SoundtrackOptical {
     
     soundfile = new SoundFile(parent, FILEPATH);
 
-    parent.println("OLD SAMPLE_RATE: " + soundfile.sampleRate());
-
-    soundfile.rate(SAMPLE_RATE);
-  
-    FRAMES = (int) Math.ceil(soundfile.frames() / FRAME_H_PIXELS);
+    RAW_RATE = soundfile.sampleRate();
+    RAW_FRAME_H = Math.round(RAW_RATE / 24);
+    RAW_FRAME_W = Math.round(((RAW_RATE / 24) / FRAME_H ) * FRAME_W);
+    FRAMES = (int) Math.ceil(soundfile.frames() / RAW_FRAME_H);
     
+    frameSample = new float[RAW_FRAME_H];
+    raw = parent.createGraphics(RAW_FRAME_W, RAW_FRAME_H);
 
-    parent.println("SAMPLE_RATE: " + SAMPLE_RATE);
-    parent.println("FRAMES: " + FRAMES);
-    parent.println("WIDTH: " + DEPTH);
-    parent.println("HEIGHT: " + FRAME_H_PIXELS);
-    
+        
     for (int x = 0; x < soundfile.frames(); x++) {
         compare = soundfile.read(x);
         if (compare > max) {
@@ -75,64 +75,86 @@ public class SoundtrackOptical {
           min = compare;
         }
       }
-    parent.println(min);
-    parent.println(max);
   }
   @SuppressWarnings("static-access")
   public void frame(int X, int Y) {
     if (i >= FRAMES) {
       return;
     }
-
+    raw.beginDraw();
     //draw bg
-    parent.noStroke();
+    raw.noStroke();
     if (POSITIVE) {
-      parent.fill(0);
+      raw.fill(0);
     } else {
-      parent.fill(255);
+      raw.fill(255);
     }
 
     if (TYPE != "variable density") {
-      parent.rect(X, Y, DEPTH, FRAME_H_PIXELS);
+      raw.rect(0, 0, RAW_FRAME_W, RAW_FRAME_H);
     }
     
     //draw top
     if (POSITIVE) {
-      parent.stroke(255);
+      raw.stroke(255);
     } else {
-      parent.stroke(0);
+      raw.stroke(0);
     }
     
-    soundfile.read(i * FRAME_H_PIXELS, frameSample, 0, FRAME_H_PIXELS);
+    soundfile.read(i * RAW_FRAME_H, frameSample, 0, RAW_FRAME_H);
   
-    for (int y = 0; y < FRAME_H_PIXELS; y++) {
-      LINE_W = Math.round(parent.map(frameSample[y], min, max, (float) 0, DEPTH * VOLUME));
+    for (int y = 0; y < RAW_FRAME_H; y++) {
+      if (TYPE != "variable density") {
+        LINE_W = Math.round(parent.map(frameSample[y], min, max, (float) 0, RAW_FRAME_W * VOLUME));
+      }
       if (TYPE == "unilateral") {
-        parent.line(X + 0, Y + y, X + LINE_W, Y + y);
+        unilateral(y, LINE_W);
       } else if (TYPE == "dual unilateral") {
         /* TODO!!!! */
-      } else if (TYPE == "variable area" || TYPE == "single variable area") {
-        LEFT = X + Math.round((DEPTH - LINE_W) / 2);
-        parent.line(LEFT, Y + y, LEFT + LINE_W, Y + y);
+      } else if (TYPE == "single variable area" || TYPE == "variable area") {
+        variableArea(y, LINE_W);
       } else if (TYPE == "dual variable area") {
-        LEFT = X + Math.round((DEPTH / 4) - (LINE_W / 4));
-        parent.line(LEFT, Y + y, LEFT + (LINE_W / 2), Y + y);
-        parent.line(LEFT + (DEPTH / 2), Y + y, LEFT + (DEPTH / 2) + (LINE_W / 2), Y + y);
+        dualVariableArea(y, LINE_W);
       } else if (TYPE == "multiple variable area" || TYPE == "maurer") {
-        LEFT = X + Math.round((DEPTH / 16) - (LINE_W / 16));
-        for (int x = 1; x < 7; x++) {
-           parent.line(LEFT + ((x * DEPTH) / 8), Y + y, LEFT + ((x * DEPTH) / 8) + (LINE_W / 8), Y + y);
-        }
+        multipleVariableArea(y, LINE_W);
       } else if (TYPE == "variable density") {
-        DENSITY = parent.map(frameSample[y], min, max, (float) 0, 255 * VOLUME);
-        if (POSITIVE) {
-          parent.stroke(DENSITY);
-        } else {
-          parent.stroke(255 - DENSITY);
-        }
-        parent.line(X + 0, Y + y, X + DEPTH, Y + y);
+        variableDensity(y);
       }
     }
+    raw.endDraw();
+    parent.image(raw, X, Y, DEPTH, FRAME_H_PIXELS);
     i++;
+  }
+
+  private void unilateral (int y, int LINE_W) {
+    raw.line(0, y, LINE_W, y);
+  }
+
+  private void variableArea (int y, int LINE_W) {
+    LEFT = Math.round((RAW_FRAME_W - LINE_W) / 2);
+    raw.line(LEFT, y, LEFT + LINE_W, y);
+  }
+
+  private void dualVariableArea (int y, int LINE_W) {
+    LEFT = Math.round((RAW_FRAME_W / 4) - (LINE_W / 4));
+    raw.line(LEFT, y, LEFT + (LINE_W / 2), y);
+    raw.line(LEFT + (RAW_FRAME_W / 2), y, LEFT + (RAW_FRAME_W / 2) + (LINE_W / 2), y);
+  }
+
+  private void multipleVariableArea (int y, int LINE_W) {
+    LEFT = Math.round((RAW_FRAME_W / 16) - (LINE_W / 16));
+    for (int x = 1; x < 7; x++) {
+      raw.line(LEFT + ((x * RAW_FRAME_W) / 8), y, LEFT + ((x * RAW_FRAME_W) / 8) + (LINE_W / 8), y);
+    }
+  }
+  
+  private void variableDensity(int y) {
+    DENSITY = parent.map(frameSample[y], min, max, (float) 0, 255 * VOLUME);
+    if (POSITIVE) {
+      raw.stroke(DENSITY);
+    } else {
+      raw.stroke(255 - DENSITY);
+    }
+    raw.line(0, y, RAW_FRAME_W, y);
   }
 }
