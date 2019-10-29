@@ -12,12 +12,12 @@ String pitch = "long";
 boolean positive = true;
 
 void setup() {
-  size(213, 620);
+  size(213, 620, P2D);
   frameRate(24);
   soundtrack = new SoundtrackOptical(this, soundtrackFile, dpi, volume, type, pitch, positive);
   playback = new SoundFile(this, soundtrackFile);
 
-  playback.play();
+  playback.play(); //playback alongside image
 }
 
 void draw () {

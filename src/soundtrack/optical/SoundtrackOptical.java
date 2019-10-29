@@ -63,7 +63,7 @@ public class SoundtrackOptical {
     FRAMES = (int) Math.ceil(soundfile.frames() / RAW_FRAME_H);
     
     frameSample = new float[RAW_FRAME_H];
-    raw = parent.createGraphics(RAW_FRAME_W, RAW_FRAME_H);
+    raw = parent.createGraphics(RAW_FRAME_W, RAW_FRAME_H, parent.P2D);
 
         
     for (int x = 0; x < soundfile.frames(); x++) {
