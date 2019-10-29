@@ -1,7 +1,7 @@
 import processing.sound.*;
 import soundtrack.optical.*;
 
-SoundtrackOptical[] soundtracks = {null, null, null, null, null };
+SoundtrackOptical[] soundtracks = { null, null, null, null, null };
 String[] types = { "unilateral", "variable area", "dual variable area", "maurer", "variable density" };
 
 String soundtrackFile = "../../data/barking.wav";
