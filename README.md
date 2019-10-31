@@ -6,7 +6,7 @@ Install library by downloading library as .zip, uncompressing and placing Soundt
 
 Supports mono audio only (at the moment, feel free to contribute).
 
-Draws various kids of 16mm soundtracks. [Read about them here.](http://www.paulivester.com/films/filmstock/guide.htm).
+Draws various kinds of 16mm soundtracks. [Read about them here.](http://www.paulivester.com/films/filmstock/guide.htm).
 
 * unilateral
 * *dual unilateral (in progress!)*
