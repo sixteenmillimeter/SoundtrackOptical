@@ -89,9 +89,23 @@ public class SoundtrackOptical {
       }
   }
   
+  /**
+   * Calls frame() every frame of parent PApplet draw()
+   * 
+   * @param X {Integer} Left position of soundtrack to draw on parent renderer
+   * @param Y {Integer} Top position
+   */
   public void draw (int X, int Y) {
     frame(X, Y, parent.frameCount);
   }
+  
+  /**
+   * Draws a frame on parent PApplet window at position 
+   * 
+   * @param X {Integer} Left position of soundtrack to draw on parent renderer
+   * @param Y {Integer} Top position
+   * @param frameNumber {Integer} Frame of soundtrack to draw
+   */
   
   @SuppressWarnings("static-access")
   public void frame(int X, int Y, int frameNumber) {
