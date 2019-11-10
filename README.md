@@ -36,6 +36,17 @@ void setup() {
 }
 
 void draw () {
-  soundtrack.frame(0, 0);
+  soundtrack.draw(0, 0);
 }
+```
+
+### Alternate usage
+
+Use the `frame(int x, int y, int frameNumber)` method to draw specific frames--used for laying out multiple frames of soundtrack on a single screen.
+
+```java
+void draw () {
+	soundtrack.frame(0, 0, frameCount);
+}
+
 ```

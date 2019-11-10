@@ -19,7 +19,7 @@ void setup() {
 
 void draw () {
   for (int i = 0; i < types.length; i++) {
-    soundtracks[i].frame(i * 213, 0);
+    soundtracks[i].draw(i * 213, 0);
   }
   
   stroke(255, 0, 0);

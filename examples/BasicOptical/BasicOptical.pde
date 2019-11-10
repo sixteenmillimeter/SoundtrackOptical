@@ -11,7 +11,7 @@ String pitch = "long";                    			//whether the film is "long" or "sh
 boolean positive = true;                  			//whether the film is positive or negative
 
 void setup() {
-  size(213, 620, P2D);								//this will perfectly fill the frame with the soundtrack @ 2400DPI
+  size(213, 620);								//this will perfectly fill the frame with the soundtrack @ 2400DPI
   													//must run in P2D or P2D (acheives realtime playback easier)
   
   frameRate(24); 									//this will playback at realtime speed
@@ -19,5 +19,5 @@ void setup() {
 }
 
 void draw () {
-  soundtrack.frame(0, 0);
+  soundtrack.draw(0, 0);
 }

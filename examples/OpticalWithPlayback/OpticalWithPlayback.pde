@@ -21,5 +21,5 @@ void setup() {
 }
 
 void draw () {
-  soundtrack.frame(0, 0);
+  soundtrack.draw(0, 0);
 }

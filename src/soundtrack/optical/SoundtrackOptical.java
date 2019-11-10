@@ -39,6 +39,19 @@ public class SoundtrackOptical {
   PGraphics raw;
   PApplet parent;
   
+  /**
+   * @constructor
+   * 
+   * 
+   * @param parent {PApplet} Parent process (usually this)
+   * @param soundtrackFile {String} Path to soundtrackFile
+   * @param dpi {Integer} Target DPI of printer
+   * @param volume {Float} Volume of output soundtrack, 0 to 1.0
+   * @param type {String} Type of soundtrack either "unilateral", "variable area", "dual variable area", "multiple variable area", "variable density"
+   * @param pitch {String} Pitch of the film, either "long" for projection or "short" for camera stock
+   * @param positive {Boolean} Whether or not soundtrack is positive or negative
+   */
+  
   @SuppressWarnings("static-access")
   public SoundtrackOptical (PApplet parent, String soundtrackFile, int dpi, float volume, String type, String pitch, boolean positive ) {
 	this.parent = parent;
@@ -62,7 +75,7 @@ public class SoundtrackOptical {
     FRAMES = (int) Math.ceil(soundfile.frames() / RAW_FRAME_H);
     
     frameSample = new float[RAW_FRAME_H];
-    raw = parent.createGraphics(RAW_FRAME_W, RAW_FRAME_H, parent.P2D);
+    raw = parent.createGraphics(RAW_FRAME_W, RAW_FRAME_H);//mode option?
 
         
     for (int x = 0; x < soundfile.frames(); x++) {
@@ -75,8 +88,16 @@ public class SoundtrackOptical {
         }
       }
   }
+  
+  public void draw (int X, int Y) {
+    frame(X, Y, parent.frameCount);
+  }
+  
   @SuppressWarnings("static-access")
-  public void frame(int X, int Y) {
+  public void frame(int X, int Y, int frameNumber) {
+	if (frameNumber != -1) {
+		i = frameNumber;
+	}
     if (i >= FRAMES) {
       return;
     }
@@ -122,7 +143,9 @@ public class SoundtrackOptical {
     }
     raw.endDraw();
     parent.image(raw, X, Y, DEPTH, FRAME_H_PIXELS);
-    i++;
+    if (frameNumber == -1) {
+    	i++;
+    }
   }
 
   private void unilateral (int y, int LINE_W) {
@@ -146,7 +169,7 @@ public class SoundtrackOptical {
       raw.line(LEFT + ((x * RAW_FRAME_W) / 8), y, LEFT + ((x * RAW_FRAME_W) / 8) + (LINE_W / 8), y);
     }
   }
-  
+  @SuppressWarnings("static-access")
   private void variableDensity(int y) {
     DENSITY = parent.map(frameSample[y], min, max, (float) 0, 255 * VOLUME);
     if (POSITIVE) {
