@@ -2,7 +2,7 @@
 
 Library for generating 16mm optical soundtracks with Processing.
 
-Install library by downloading library as .zip, uncompressing and placing SoundtrackOptical in your Processing library directory. Start up (or restart) Processing to use in a sketch.
+Install library by downloading library as .zip, uncompressing and [placing SoundtrackOptical in your Processing library directory](https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library). Start up (or restart) Processing to use in a sketch.
 
 Supports mono audio only (at the moment, feel free to contribute).
 
@@ -13,6 +13,7 @@ Draws various kinds of 16mm soundtracks. [Read about them here.](http://www.paul
 * single variable area
 * dual variable area
 * multiple variable area (Maurer)
+* variable density
 
 ### Example Usage
 
