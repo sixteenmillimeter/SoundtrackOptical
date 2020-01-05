@@ -1,5 +1,7 @@
 # soundtrack.optical
 
+[Download library](https://github.com/sixteenmillimeter/SoundtrackOptical/archive/master.zip)
+
 Library for generating 16mm optical soundtracks with Processing.
 
 Install library by downloading library as .zip, uncompressing and [placing SoundtrackOptical in your Processing library directory](https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library). Start up (or restart) Processing to use in a sketch.
