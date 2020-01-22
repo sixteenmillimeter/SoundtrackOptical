@@ -43,13 +43,23 @@ void draw () {
 }
 ```
 
-### Alternate usage
+### Alternate usages
 
 Use the `frame(int x, int y, int frameNumber)` method to draw specific frames--used for laying out multiple frames of soundtrack on a single screen.
 
 ```java
 void draw () {
 	soundtrack.frame(0, 0, frameCount);
+}
+
+```
+
+Use the `buffer(int frameNumber)` method to return the internal `PGraphics` object that contains the specific frame of soundtrack data specified by the frameNumber. You can then draw onto the canvas, address the pixels directly, or as in the provided BufferExample.pde assign the image data to a PImage to be manipulated using the built-in transformation methods.
+
+```java
+void draw () {
+	PGraphics soundtrackBuffer = soundtrack.buffer(frameCount);
+	image(soundtrackBuffer, 0, 0);
 }
 
 ```

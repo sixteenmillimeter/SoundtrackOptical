@@ -161,6 +161,58 @@ public class SoundtrackOptical {
     }
   }
 
+  @SuppressWarnings("static-access")
+  public PGraphics buffer (int frameNumber) {
+	if (frameNumber != -1) {
+	  i = frameNumber;
+    }
+    if (i >= FRAMES) {
+      return null;
+    }
+    raw.beginDraw();
+    //draw bg
+    raw.noStroke();
+    if (POSITIVE) {
+      raw.fill(0);
+    } else {
+      raw.fill(255);
+    }
+
+    if (TYPE != "variable density") {
+      raw.rect(0, 0, RAW_FRAME_W, RAW_FRAME_H);
+    }
+    
+    //draw top
+    if (POSITIVE) {
+      raw.stroke(255);
+    } else {
+      raw.stroke(0);
+    }
+    
+    soundfile.read(i * RAW_FRAME_H, frameSample, 0, RAW_FRAME_H);
+  
+    for (int y = 0; y < RAW_FRAME_H; y++) {
+      if (TYPE != "variable density") {
+        LINE_W = Math.round(parent.map(frameSample[y], min, max, (float) 0, RAW_FRAME_W * VOLUME));
+      }
+      if (TYPE == "unilateral") {
+        unilateral(y, LINE_W);
+      } else if (TYPE == "dual unilateral") {
+        /* TODO!!!! */
+      } else if (TYPE == "single variable area" || TYPE == "variable area") {
+        variableArea(y, LINE_W);
+      } else if (TYPE == "dual variable area") {
+        dualVariableArea(y, LINE_W);
+      } else if (TYPE == "multiple variable area" || TYPE == "maurer") {
+        multipleVariableArea(y, LINE_W);
+      } else if (TYPE == "variable density") {
+        variableDensity(y);
+      }
+    }
+    raw.endDraw();
+    return raw;
+  }
+
   private void unilateral (int y, int LINE_W) {
     raw.line(0, y, LINE_W, y);
   }
