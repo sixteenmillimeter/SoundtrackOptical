@@ -4,7 +4,7 @@
 
 Library for generating 16mm optical soundtracks with Processing.
 
-Install library by downloading library as .zip, uncompressing and [placing SoundtrackOptical in your Processing library directory](https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library). Start up (or restart) Processing to use in a sketch.
+Install library by downloading library as .zip, uncompressing and [placing SoundtrackOptical in your Processing library directory](https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library). Note: When extracting the .zip, the folder may be named "SoundtrackOptical-master" and should be renamed "SoundtrackOptical" before installing. Start up (or restart) Processing to use this library in a sketch.
 
 Supports mono audio only (at the moment, feel free to contribute).
 
