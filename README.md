@@ -1,5 +1,7 @@
 # soundtrack.optical
 
+![Illustration of all soundtrack formats displaying the same samples](./img/SoundtrackOptical.jpg)
+
 [Download library](https://github.com/sixteenmillimeter/SoundtrackOptical/archive/master.zip)
 
 Library for generating 16mm optical soundtracks with Processing.
